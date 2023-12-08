@@ -106,7 +106,7 @@ const Map = () => {
 				<MapContainer
 					center={{ lat: userDefault.location.lat, lng: userDefault.location.lng }}
 					zoom={userDefault.zoom}
-					style={{ minHeight: "60rem", minWidth: "70rem" }}
+					style={{ minHeight: "60rem", maxWidth: "73rem" }}
 				>
 					<TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 					<LayersControl position="topright" collapsed={false} hideSingleBase={false}>

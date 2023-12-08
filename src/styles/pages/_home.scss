@@ -17,6 +17,8 @@
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
+			gap: 1rem;
+			flex-wrap: wrap;
 			&__logo {
 				font-size: 1.8rem;
 				font-weight: 600;
@@ -40,7 +42,7 @@
 	&_content {
 		display: flex;
 		justify-content: center;
-		column-gap: 2.5rem;
+		gap: 2.5rem;
 		max-width: 120rem;
 		margin: auto;
 		.map-container {
@@ -94,6 +96,21 @@
 					padding: 0.8rem 1.3rem;
 					border-radius: 1.5rem;
 				}
+			}
+		}
+
+		@include breakpoint(tablet) {
+			.map-container {
+				flex: 4;
+			}
+			.favourites_list {
+				flex: 3;
+			}
+		}
+		@include breakpoint(tablet-sm) {
+			flex-direction: column;
+			.map-container {
+				max-height: 45rem;
 			}
 		}
 	}
