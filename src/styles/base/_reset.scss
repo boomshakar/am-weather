@@ -1,0 +1,48 @@
+a,
+a:link,
+a:visited {
+	text-decoration: none;
+	color: inherit;
+	display: inline-block;
+}
+
+button {
+	font: inherit;
+	border: none;
+	background-color: transparent;
+
+	&:hover {
+		cursor: pointer;
+	}
+
+	&:focus {
+		outline: none;
+	}
+	&:disabled {
+		cursor: not-allowed;
+	}
+}
+
+select {
+	appearance: none;
+	border: 0;
+	outline: 0;
+	font: inherit;
+	background-color: transparent;
+	cursor: pointer;
+}
+
+input {
+	border: none;
+	background-color: transparent;
+	font-family: inherit;
+
+	&::placeholder {
+		color: inherit;
+		font-size: inherit;
+	}
+
+	&:focus {
+		outline: none;
+	}
+}

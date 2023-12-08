@@ -1,0 +1,78 @@
+*,
+*::after,
+*::before {
+	box-sizing: border-box;
+	padding: 0;
+	margin: 0;
+}
+
+// scroll bar ui
+* {
+	scrollbar-color: #002444 #d1d1d1;
+	scrollbar-width: thin;
+}
+
+/* width */
+::-webkit-scrollbar {
+	width: 8px;
+	height: 8px;
+	@include breakpoint(tablet) {
+		width: 5px;
+		height: 5px;
+	}
+}
+// ÷
+/* Track */
+::-webkit-scrollbar-track {
+	background: rgba(0, 0, 0, 0.2);
+	border-radius: 10px;
+	@include breakpoint(tablet) {
+		background: transparent;
+	}
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background: #002444;
+	border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+	background: #1b507e;
+}
+
+html {
+	// This defines what 1rem is
+	font-size: 62.5%;
+	font-family: $fontJost, $fontLato;
+	color: $color-black;
+}
+
+body {
+	box-sizing: border-box;
+	height: 100%;
+	position: relative;
+	scroll-behavior: smooth;
+
+	.is-loading {
+		--overlay-color: rgba(0, 0, 0, 0.4);
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		background: var(--overlay-color);
+		z-index: 2;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		&-icon {
+			border-radius: 50%;
+			border: 2.5px solid;
+			border-color: $color-white;
+			width: 19px;
+			height: 19px;
+			border-right-color: transparent;
+			animation: spinner 1.5s linear infinite;
+		}
+	}
+}
