@@ -46,6 +46,7 @@
 		.map-container {
 			border-radius: var(--contain-br);
 			flex: 5;
+			height: fit-content;
 			background: $dark-blue3;
 			overflow: hidden;
 		}
