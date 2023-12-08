@@ -7,12 +7,13 @@ import { useEffect, useState } from "react";
 import { LayerGroup, LayersControl, MapContainer, Marker, Popup, TileLayer, useMapEvents } from "react-leaflet";
 import favLocationPinIcon from "../assets/icons/fav_pin.png";
 import locationPinIcon from "../assets/icons/location-pin.png";
-import { OW_API_KEY, initialWeatherLocation } from "../constants";
+import { OW_API_KEY, initialWeatherLocation, userDefault } from "../constants";
 import useQuery from "../hooks/useQuery";
-import { ClickedLocationProps, UserLocationType, WeatherDataProps } from "../types";
+import { ClickedLocationProps, WeatherDataProps } from "../types";
 import { Favourites } from "./Favourites";
 import { MarkerPopup } from "./MarkerPopup";
 
+// Custom Location Icons
 const locationPin = new Icon({
 	iconUrl: locationPinIcon,
 	iconSize: [38, 38],
@@ -23,18 +24,20 @@ const favLocationPin = new Icon({
 	iconSize: [38, 38],
 });
 
+/**
+ * Map component to display a Leaflet map with weather data and user interactions.
+ * @component
+ */
 const Map = () => {
 	const [favourites, setFavourites] = useState<WeatherDataProps[]>([]);
 	const [clickedLocation, setClickedLocation] = useState<ClickedLocationProps | null>(initialWeatherLocation);
-	const userDefault: UserLocationType = {
-		location: initialWeatherLocation,
-		zoom: 13,
-	};
 
+	// Weather data query
 	const { data: weatherData } = useQuery<WeatherDataProps>(
 		`/weather?lat=${clickedLocation?.lat}&lon=${clickedLocation?.lng}&appid=${OW_API_KEY}&units=metric`
 	);
 
+	// Load favourites from localStorage on component mount
 	useEffect(() => {
 		const fav = localStorage.getItem("favorite-data");
 		const favArray = fav && JSON.parse(fav);
@@ -43,23 +46,11 @@ const Map = () => {
 		}
 	}, []);
 
-	function LocationMarker() {
-		const [position, setPosition] = useState<ClickedLocationProps | null>(null);
-		const map = useMapEvents({
-			click(e: LeafletMouseEvent) {
-				setPosition(e.latlng);
-				setClickedLocation(e.latlng);
-				map.flyTo(e.latlng, map.getZoom());
-			},
-		});
-
-		return position === null ? null : (
-			<Marker position={position}>
-				<Popup>You are here</Popup>
-			</Marker>
-		);
-	}
-
+	/**
+	 * Handle saving and removing favourite locations.
+	 * @function
+	 * @param {WeatherDataProps} data - Weather data of the location.
+	 */
 	const handleSaveFavourites = (data: WeatherDataProps) => {
 		const isAlreadyFavourited = favourites?.find(
 			(favourite) => favourite.coord.lat === data.coord.lat && favourite.coord.lon === data.coord.lon
@@ -76,6 +67,10 @@ const Map = () => {
 		}
 	};
 
+	/**
+	 * Clear all favourites and remove from localStorage.
+	 * @function
+	 */
 	const clearFavourites = () => {
 		localStorage.removeItem("favorite-data");
 		setFavourites([]);
@@ -83,6 +78,27 @@ const Map = () => {
 
 	//Complete Map API URL Request
 	const mapUrl = "https://tile.openweathermap.org/map/temp_new/{z}/{x}/{y}.png?appid=" + "" + OW_API_KEY;
+
+	/**
+	 * Custom component to handle click events on the map to set the clicked location.
+	 * @component
+	 */
+	const LocationMarker = () => {
+		const [position, setPosition] = useState<ClickedLocationProps | null>(null);
+		const map = useMapEvents({
+			click(e: LeafletMouseEvent) {
+				setPosition(e.latlng);
+				setClickedLocation(e.latlng);
+				map.flyTo(e.latlng, map.getZoom());
+			},
+		});
+
+		return position === null ? null : (
+			<Marker position={position}>
+				<Popup>You are here</Popup>
+			</Marker>
+		);
+	};
 
 	return (
 		<>
